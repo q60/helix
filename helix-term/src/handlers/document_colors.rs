@@ -1,14 +1,14 @@
 use std::{collections::HashSet, time::Duration};
 
-use futures_util::{stream::FuturesOrdered, StreamExt};
+use futures_util::{StreamExt, stream::FuturesOrdered};
 use helix_core::{syntax::LanguageServerFeature, text_annotations::InlineAnnotation};
 use helix_event::{cancelable_future, register_hook};
 use helix_lsp::lsp;
 use helix_view::{
+    DocumentId, Editor, Theme,
     document::DocumentColorSwatches,
     events::{DocumentDidChange, DocumentDidOpen, LanguageServerExited, LanguageServerInitialized},
-    handlers::{lsp::DocumentColorsEvent, Handlers},
-    DocumentId, Editor, Theme,
+    handlers::{Handlers, lsp::DocumentColorsEvent},
 };
 use tokio::time::Instant;
 
@@ -122,7 +122,7 @@ fn attach_document_colors(
 
     for (pos, color) in doc_colors {
         color_swatches_padding.push(InlineAnnotation::new(pos, " "));
-        color_swatches.push(InlineAnnotation::new(pos, "■"));
+        color_swatches.push(InlineAnnotation::new(pos, "⬢"));
         colors.push(Theme::rgb_highlight(
             (color.red * 255.) as u8,
             (color.green * 255.) as u8,
